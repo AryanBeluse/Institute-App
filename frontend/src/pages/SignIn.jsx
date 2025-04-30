@@ -12,6 +12,7 @@ const SignIn = () => {
     const [state, setState] = useState("Admin")
     const navigate = useNavigate()
     const backendUrl = import.meta.env.VITE_BACKEND_URL
+    const [loading, setLoading] = useState(false)
 
     const { setAToken } = useContext(AdminContext)
     const { setEmpToken, setSpecificTrainer } = useContext(TrainerContext)
@@ -27,7 +28,7 @@ const SignIn = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-
+        setLoading(true)
         const { email, password } = formData;
 
         if (state === 'Trainer') {
@@ -38,10 +39,12 @@ const SignIn = () => {
                     setSpecificTrainer(data.trainer)
                     toast.success("Welcome Trainer!")
                     navigate('/trainer/subjects')
+                    setLoading(false)
                 }
             } catch (error) {
                 const errorMessage = error.response?.data?.message || 'Something went wrong';
                 toast.error(errorMessage || 'Something went wrong')
+                setLoading(false)
             }
         } else if (state === 'Admin') {
             try {
@@ -50,10 +53,12 @@ const SignIn = () => {
                     toast.success("Welcome Admin!");
                     setAToken(data.aToken)
                     navigate('/dashboard');
+                    setLoading(false)
                 }
             } catch (error) {
                 const errorMessage = error.response?.data?.message || 'Something went wrong';
                 toast.error(errorMessage || 'Something went wrong')
+                setLoading(false)
             }
         }
     }
@@ -92,7 +97,7 @@ const SignIn = () => {
                         />
                         <button className='text-white bg-[#1E3A8A] p-3 rounded-lg hover:opacity-90 w-full shadow-lg'
                         >
-                            Login
+                            {loading ? "Logging..." : "Login"}
                         </button>
                     </form>
 
@@ -121,3 +126,4 @@ const SignIn = () => {
 };
 
 export default SignIn
+
