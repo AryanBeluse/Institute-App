@@ -27,7 +27,7 @@ connectCloudinary();
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cors({
-    origin: "http://localhost:5173", // Example: "http://localhost:5173"
+    origin: "https://institute-app-frontend.onrender.com", // Example: "http://localhost:5173"
     credentials: true, // Allow cookies
 }));
 app.use(cookieParser());
